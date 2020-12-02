@@ -28,20 +28,18 @@ blocks:
           value: en_US.UTF-8
       secrets:
         - name: match-secrets
-      prologue:
-        commands:
-          - chmod 0600 ~/.ssh/*
-          - ssh-add ~/.ssh/match-repository-private-key
-          - checkout
-          - cache restore
-          - bundle install --path vendor/bundle
-          - cache store
       jobs:
         - name: Build
           commands:
             - bundle exec xcversion select 12.0.1
             - bundle exec fastlane build
             - artifact push job build/TallestTowers.ipa
+      prologue:
+        commands:
+          - checkout
+          - cache restore
+          - bundle install --path vendor/bundle
+          - cache store
   - name: Take screenshots
     task:
       env_vars:
